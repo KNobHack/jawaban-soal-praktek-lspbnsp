@@ -55,6 +55,16 @@ function keliling()
         return '';
     }
 }
+
+if (hitung()) {
+    // Membuat atau menulis
+    $file = fopen('hasil.txt', 'a');
+    fwrite($file, alas() . '/' . tinggi() . '/' . luas() . '/' . keliling() . '/' . date('d-M-Y') . "\n");
+    fclose($file);
+}
+
+// Membaca file
+$log = file('hasil.txt');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -84,6 +94,32 @@ function keliling()
 
     Luas : <?= luas() ?><br>
     Keliling : <?= keliling() ?><br>
+
+    <table>
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Alas</th>
+                <th>Tinggi</th>
+                <th>Luas</th>
+                <th>Keliling</th>
+                <th>Waktu</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($log as $no => $data) : ?>
+                <?php $baris = explode('/', $data) ?>
+                <tr>
+                    <td><?= $no + 1 ?></td>
+                    <td><?= $baris[0] ?></td>
+                    <td><?= $baris[1] ?></td>
+                    <td><?= $baris[2] ?></td>
+                    <td><?= $baris[3] ?></td>
+                    <td><?= $baris[4] ?></td>
+                </tr>
+            <?php endforeach ?>
+        </tbody>
+    </table>
 </body>
 
 </html>
