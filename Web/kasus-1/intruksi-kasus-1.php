@@ -57,7 +57,7 @@ function keliling()
 }
 
 if (hitung()) {
-    // Membuat atau menulis
+    // Membuat atau menulis file
     if ($file = fopen('hasil.txt', 'a')) {
         fwrite($file, alas() . '/' . tinggi() . '/' . luas() . '/' . keliling() . '/' . date('H:i:s') . "\n");
         fclose($file);
@@ -71,7 +71,6 @@ if (file_exists('hasil.txt')) {
     foreach ($logs as $key => $val) {
         $data = explode('/', $val);
         $time[$key] = strtotime($data[4]);
-        var_dump($data);
     }
 
     array_multisort($time, SORT_DESC, SORT_NUMERIC, $logs);
