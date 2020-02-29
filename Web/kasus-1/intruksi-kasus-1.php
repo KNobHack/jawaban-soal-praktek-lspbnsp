@@ -58,13 +58,26 @@ function keliling()
 
 if (hitung()) {
     // Membuat atau menulis
-    $file = fopen('hasil.txt', 'a');
-    fwrite($file, alas() . '/' . tinggi() . '/' . luas() . '/' . keliling() . '/' . date('d-M-Y') . "\n");
-    fclose($file);
+    if ($file = fopen('hasil.txt', 'a')) {
+        fwrite($file, alas() . '/' . tinggi() . '/' . luas() . '/' . keliling() . '/' . date('H:i:s') . "\n");
+        fclose($file);
+    }
 }
 
 // Membaca file
-$log = file('hasil.txt');
+if (file_exists('hasil.txt')) {
+    $logs = file('hasil.txt');
+    // mengurutkan berdasarkan waktu
+    foreach ($logs as $key => $val) {
+        $data = explode('/', $val);
+        $time[$key] = strtotime($data[4]);
+        var_dump($data);
+    }
+
+    array_multisort($time, SORT_DESC, SORT_NUMERIC, $logs);
+} else {
+    $logs = null;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -78,7 +91,7 @@ $log = file('hasil.txt');
 </head>
 
 <body>
-    <h5>Menghitung Luas 7 Keliling Segitiga</h5>
+    <h3>Menghitung Luas Keliling Segitiga</h3>
 
     <form>
         <div>
@@ -107,17 +120,23 @@ $log = file('hasil.txt');
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($log as $no => $data) : ?>
-                <?php $baris = explode('/', $data) ?>
+            <?php if (is_array($logs)) : ?>
+                <?php foreach ($logs as $no => $data) : ?>
+                    <?php $baris = explode('/', $data) ?>
+                    <tr>
+                        <td><?= $no + 1 ?></td>
+                        <td><?= $baris[0] ?></td>
+                        <td><?= $baris[1] ?></td>
+                        <td><?= $baris[2] ?></td>
+                        <td><?= $baris[3] ?></td>
+                        <td><?= $baris[4] ?></td>
+                    </tr>
+                <?php endforeach ?>
+            <?php else : ?>
                 <tr>
-                    <td><?= $no + 1 ?></td>
-                    <td><?= $baris[0] ?></td>
-                    <td><?= $baris[1] ?></td>
-                    <td><?= $baris[2] ?></td>
-                    <td><?= $baris[3] ?></td>
-                    <td><?= $baris[4] ?></td>
+                    <td colspan="6">Belum ada data yang tersimpan</td>
                 </tr>
-            <?php endforeach ?>
+            <?php endif ?>
         </tbody>
     </table>
 </body>
