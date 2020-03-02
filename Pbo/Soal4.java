@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 class Handphone {
 
     public String merek;
@@ -41,12 +45,27 @@ class Handphone {
 
 class Program {
     public static void main(String[] args) {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
         Handphone HP = new Handphone();
 
-        HP.setMerek("Samsung");
-        HP.setTipe("J7 PRO");
-        HP.setWarna("Black");
-        HP.setHarga(3700000);
+        try {
+            System.out.println("Masukkan Merek HP");
+            String merek = br.readLine();
+            System.out.println("Masukkan Tipe HP");
+            String tipe = br.readLine();
+            System.out.println("Masukkan Warna HP");
+            String warna = br.readLine();
+            System.out.println("Masukkan Harga HP");
+            Integer harga = Integer.parseInt(br.readLine());
+            HP.setMerek(merek);
+            HP.setTipe(tipe);
+            HP.setWarna(warna);
+            HP.setHarga(harga);
+        } catch (IOException e) {
+            System.out.println("Masukkan Data dengan benar : " + e);
+        }
 
         int discountPersentage = 10;
 
